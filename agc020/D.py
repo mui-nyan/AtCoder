@@ -23,8 +23,6 @@ for i in range(q):
     len_ans = d - c + 1
     ans = ""
     
-
-    
     for i in range(c-1, d):
         if i != len_ans - 1:
             ans += pattern[i % len_pattern]
