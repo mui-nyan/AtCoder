@@ -1,38 +1,26 @@
-from functools import reduce
-
-
 n = int(input())
 nums = list(map(int, input().split(" ")))
 
 ans = 0
-prev = -1
-count = 1 # 1が立ってるビットが一致しない数が連続している個数
-left = -1
+tail = 0
+prev = nums[0]
 
-for i,num in enumerate(nums):
-    if i == 0:
-        prev = num
-        left = 0
-        count = 1
-        continue
-    
-    #breakpoint()
-
+for head in range(1, n):
+    num = nums[head]
     if prev & num > 0:
-        # left を1進めたらいけるか？
+        # これ以上伸ばせない場合、
+        # ここまでの長さ(head-tail)を正解に加算し、tailを進める
         while prev & num > 0:
-            ans += count
-            prev = prev ^ nums[left]
-            count -= 1
-            left += 1
-        count += 1
+            ans += head - tail
+            # 区間値からtailを除外
+            prev = prev ^ nums[tail]
+            tail += 1
         prev += num
     else:
-        count += 1
+        # まだ伸ばせるなら区間値にheadを加えてそのまま進める
         prev = prev + num
 
-#print("count", count)
-
+count = n - tail
 # 1からcountまでの合計を足す
 ans += count*(count+1)//2
 
