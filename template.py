@@ -1,5 +1,6 @@
 import math
 from functools import reduce
+from collections import deque
 
 def s(generator, splitter, mapper):
     return [ mapper(s) for s in generator().split(splitter) ]
