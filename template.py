@@ -1,6 +1,8 @@
 import math
 from functools import reduce
 from collections import deque
+import sys
+sys.setrecursionlimit(10**7)
 
 def s(generator, splitter, mapper):
     return [ mapper(s) for s in generator().split(splitter) ]
@@ -13,3 +15,4 @@ def get_nums_l():
 def get_nums_n(n):
     return [ int(input()) for _ in range(n)]
 
+lines = sys.stdin.readlines()
