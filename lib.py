@@ -10,6 +10,9 @@ def gcd(m, n):
     # m を n で割った余りを新たに n とし、更に 元のnを新たにm とし 2. に戻る。
     return gcd(n, m % n)
 
+def lcm(m, n):
+    return m*n//gcd(m,n)
+
 # 昇順にソート済みのarrにnが存在すれば、最も左のindexと値を返します。
 # 存在しない場合は、Noneを返します。
 def bin_eq(arr, n):
