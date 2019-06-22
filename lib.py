@@ -56,6 +56,7 @@ node_groups = [ i for i in range(nodes)]
 group_sizes = [ 1 for _ in range(nodes)]
 group_ranks = [ 0 for _ in range(nodes)]
 
+m = 99999
 edges = []
 for i in range(m):
     tmp=input().split(" ")
