@@ -10,6 +10,25 @@ def gcd(m, n):
     # m を n で割った余りを新たに n とし、更に 元のnを新たにm とし 2. に戻る。
     return gcd(n, m % n)
 
+# 昇順にソート済みのarrにnが存在すれば、最も左のindexを返します。
+# 存在しない場合は、-1を返します。
+def bin_eq(arr, n):
+    l = 0
+    r = len(arr) - 1
+    c = (l+r)//2
+    while l < r:
+        c = (l+r)//2
+        if arr[c] > n:
+            r = c-1
+        elif arr[c] < n:
+            l = c+1
+        else:
+            r = c
+    c = (l+r)//2
+    if arr[c] == n:
+        return c
+    else:
+        return -1
 
 ##
 # Union-Find
