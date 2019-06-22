@@ -10,8 +10,8 @@ def gcd(m, n):
     # m を n で割った余りを新たに n とし、更に 元のnを新たにm とし 2. に戻る。
     return gcd(n, m % n)
 
-# 昇順にソート済みのarrにnが存在すれば、最も左のindexを返します。
-# 存在しない場合は、-1を返します。
+# 昇順にソート済みのarrにnが存在すれば、最も左のindexと値を返します。
+# 存在しない場合は、Noneを返します。
 def bin_eq(arr, n):
     l = 0
     r = len(arr) - 1
@@ -24,11 +24,30 @@ def bin_eq(arr, n):
             l = c+1
         else:
             r = c
-    c = (l+r)//2
+    c = max(0, (l+r)//2)
     if arr[c] == n:
-        return c
+        return (c, arr[c])
     else:
-        return -1
+        return None
+
+# 昇順にソート済みのarrから、n以上の最小の要素を探索して返します。
+# 存在しない場合は、Noneを返します。
+def bin_gte(arr, n):
+    l = 0
+    r = len(arr) - 1
+    c = (l+r)//2
+    while l < r:
+        c = (l+r)//2
+        if arr[c] >= n:
+            r = c
+        else :
+            l = c+1
+    c = max(0, (l+r)//2)
+    if arr[c] >= n:
+        return (c, arr[c])
+    else:
+        return None
+
 
 ##
 # Union-Find
