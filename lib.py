@@ -13,6 +13,25 @@ def gcd(m, n):
 def lcm(m, n):
     return m*n//gcd(m,n)
 
+def factorization(n):
+    arr = []
+    temp = n
+    for i in range(2, int(-(-n**0.5//1))+1):
+        if temp%i==0:
+            cnt=0
+            while temp%i==0:
+                cnt+=1
+                temp //= i
+            arr.append([i, cnt])
+
+from itertools import combinations
+def subsets(items):
+    _subsets_=[]
+    for i in range(len(items) + 1):
+        for c in combinations(items, i):
+            _subsets_.append(c)
+    return _subsets_
+
 # 昇順にソート済みのarrにnが存在すれば、最も左のindexと値を返します。
 # 存在しない場合は、Noneを返します。
 def bin_eq(arr, n):
