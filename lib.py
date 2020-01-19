@@ -70,6 +70,22 @@ def bin_gte(arr, n):
     else:
         return None
 
+# 昇順にソート済みのarrから、n以下の最大の要素を探索して返します。
+# 存在しない場合は、Noneを返します。
+def bin_lte(arr, n, l):
+    r = len(arr) - 1
+    c = (l+r)//2
+    while l < r:
+        c = (l+r+1)//2
+        if arr[c] <= n:
+            l = c
+        else :
+            r = c-1
+    c = max(0, (l+r)//2)
+    if arr[c] <= n:
+        return (c, arr[c])
+    else:
+        return None
 
 ##
 # Union-Find
