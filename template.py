@@ -12,7 +12,12 @@ def get_nums_l():
 def get_nums_n(n):
     return [ int(input()) for _ in range(n)]
 
+# 改行またはスペース区切りの入力をすべて読み込んでイテレータを返します。
+def get_all_int():
+    return map(int, open(0).read().split())
+
 def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
 
 lines = sys.stdin.readlines()
+n,k,*aaa = get_all_int()
