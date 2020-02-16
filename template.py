@@ -19,5 +19,5 @@ def get_all_int():
 def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
 
-lines = sys.stdin.readlines()
+lines = list(map(lambda s: s.strip(), sys.stdin.readlines()))
 n,k,*aaa = get_all_int()
