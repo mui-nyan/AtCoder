@@ -87,6 +87,16 @@ def bin_lte(arr, n, l):
     else:
         return None
 
+def neighbors8(x, y):
+  dxy = (1, 1, 0, 1, -1, 0, -1, -1, 1 )
+  for i in range(8):
+    yield(x + dxy[i], y + dxy[i+1])
+
+def neighbors4(x, y):
+  dxy = (0, 1, 0, -1, 0 )
+  for i in range(4):
+    yield(x + dxy[i], y + dxy[i+1])
+
 ##
 # Union-Find
 nodes = 99999999999
