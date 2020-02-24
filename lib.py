@@ -61,6 +61,18 @@ def subsets(items):
             _subsets_.append(c)
     return _subsets_
 
+def init_primes(MAX):
+    primes = [None] * MAX
+
+    for i in range(2, len(primes)):
+        if primes[i] is None:
+            # log(i, "is prime.")
+            primes[i] = True
+            for j in range(i*2, len(primes), i):
+                primes[j] = False
+
+    return primes
+
 # 昇順にソート済みのarrにnが存在すれば、最も左のindexと値を返します。
 # 存在しない場合は、Noneを返します。
 def bin_eq(arr, n):
