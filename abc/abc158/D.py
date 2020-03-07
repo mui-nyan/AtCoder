@@ -1,0 +1,49 @@
+import math
+from functools import reduce
+from collections import deque
+import sys
+sys.setrecursionlimit(10**7)
+
+# スペース区切りの入力を読み込んで数値リストにして返します。
+def get_nums_l():
+    return [ int(s) for s in input().split(" ")]
+
+# 改行区切りの入力をn行読み込んで数値リストにして返します。
+def get_nums_n(n):
+    return [ int(input()) for _ in range(n)]
+
+# 改行またはスペース区切りの入力をすべて読み込んでイテレータを返します。
+def get_all_int():
+    return map(int, open(0).read().split())
+
+def log(*args):
+    print("DEBUG:", *args, file=sys.stderr)
+
+s = input()
+q = int(input())
+qqq = list(map(lambda s: s.strip(), sys.stdin.readlines()))
+
+que = deque()
+
+que.append(s)
+
+rev = False
+
+for a in qqq:
+    b = a.split()
+
+    if len(b) == 1:
+        rev = not rev
+    else:
+        front = b[1] == "1"
+        t = b[2] if not rev else "".join(reversed(b[2]))
+
+        if front == (not rev):
+            que.appendleft(t)
+        else:
+            que.append(t)
+
+if rev:
+    print("".join(reversed("".join(que))))
+else:
+    print("".join(que))
