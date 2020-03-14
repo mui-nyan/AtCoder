@@ -1,38 +1,68 @@
 import math
+from functools import reduce
+from collections import deque
+import sys
+sys.setrecursionlimit(10**7)
 
-tmp = [ int(a) for a in input().split(" ")]
-x = tmp[0]
-y = tmp[1]
-z = tmp[2]
-k = tmp[3]
+# スペース区切りの入力を読み込んで数値リストにして返します。
+def get_nums_l():
+    return [ int(s) for s in input().split(" ")]
 
-a_arr = sorted([ int(a) for a in input().split(" ")], reverse=True)
-b_arr = sorted([ int(a) for a in input().split(" ")], reverse=True)
-c_arr = sorted([ int(a) for a in input().split(" ")], reverse=True)
+# 改行区切りの入力をn行読み込んで数値リストにして返します。
+def get_nums_n(n):
+    return [ int(input()) for _ in range(n)]
 
-ai=0
-bi=0
-ci=0
-prev=0
-for i in range(k-1):
+# 改行またはスペース区切りの入力をすべて読み込んでイテレータを返します。
+def get_all_int():
+    return map(int, open(0).read().split())
 
-    next_a = a_arr[ai + 1] if ai+1 < x else -1
-    next_b = b_arr[bi + 1] if bi+1 < y else -1
-    next_c = c_arr[ci + 1] if ci+1 < z else -1
+def log(*args):
+    print("DEBUG:", *args, file=sys.stderr)
 
-    if next_a > next_b and next_a > next_c:
-        ai += 1
-        bi = 0
-        ci = 0
-    elif next_b > next_c:
-        bi += 1
+x,y,z,k = get_nums_l()
+
+aaa = get_nums_l()
+bbb = get_nums_l()
+ccc = get_nums_l()
+
+aaa.sort(reverse=True)
+bbb.sort(reverse=True)
+ccc.sort(reverse=True)
+
+def solve(p):
+    count = 0
+    for a in aaa:
+        for b in bbb:
+            for c in ccc:
+                if a+b+c < center:
+                    break
+                count += 1
+                if count >= k:
+                    return True
+    return False
+
+left = 0
+right = 30000000001
+
+while left+1 < right:
+    center = (left + right) // 2
+
+    if solve(center):
+        left = center
     else:
-        ci += 1
-    print(a_arr[ai] + b_arr[bi] + c_arr[ci])
+        right = center
 
-check_sheet = [False] * (x*y*z)
-def mark(a, b, c):
-    check_sheet[a*(y*z) + b*z + c] = True
+border = left
 
-def is_checked(a, b, c):
-    return check_sheet[a*(y*z) + b*z + c]
+ans = []
+
+for a in aaa:
+    for b in bbb:
+        for c in ccc:
+            if a+b+c >= border:
+                ans.append(a+b+c)
+            else:
+                break
+
+ans.sort(reverse=True)
+print("\n".join(list(map(str,ans[:k]))))
