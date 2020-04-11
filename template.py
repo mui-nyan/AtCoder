@@ -20,4 +20,4 @@ def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
 
 lines = list(map(lambda s: s.strip(), sys.stdin.readlines()))
-n,k,*aaa = get_all_int()
+n,k,*A = get_all_int()
