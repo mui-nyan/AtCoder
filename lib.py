@@ -187,44 +187,39 @@ class segtree:
 
 ##
 # Union-Find
-nodes = 99999999999
-node_groups = [ i for i in range(nodes)]
-group_sizes = [ 1 for _ in range(nodes)]
-group_ranks = [ 0 for _ in range(nodes)]
 
-m = 99999
-edges = []
-for i in range(m):
-    tmp=input().split(" ")
-    edges.append([int(tmp[0])-1, int(tmp[1])-1])
+class union_find():
+    def __init__(self, n):
+        self.nodes = n
+        self.node_groups = [ i for i in range(n)]
+        self.group_sizes = [ 1 for _ in range(n)]
+        self.group_ranks = [ 0 for _ in range(n)]
 
+    def root(self, i):
+        if self.node_groups[i] == i:
+            return i
+        else:
+            self.node_groups[i] = self.root(self.node_groups[i])
+            return self.node_groups[i]
 
-def root(i):
-    if node_groups[i] == i:
-        return i
-    else:
-        node_groups[i] = root(node_groups[i])
-        return node_groups[i]
+    def same(self, a, b):
+        return self.root(a) == self.root(b)
 
-def same(a, b):
-    return root(a) == root(b)
+    def size(self, i):
+        return self.group_sizes[self.root(i)]
 
-def size(i):
-    return group_sizes[root(i)]
+    def unite(self, a, b):
+        a = self.root(a)
+        b = self.root(b)
 
-def unite(a, b):
-    a = root(a)
-    b = root(b)
+        if a == b:
+            return
 
-    if a == b:
-        return
-
-    if group_ranks[a] < group_ranks[b]:
-        group_sizes[b] += size(a)
-        node_groups[a] = b
-    else:
-        group_sizes[a] += size(b)
-        node_groups[b] = a
-        if group_ranks[a] == group_ranks[b]:
-            group_ranks[a] += 1
-
+        if self.group_ranks[a] < self.group_ranks[b]:
+            self.group_sizes[b] += self.size(a)
+            self.node_groups[a] = b
+        else:
+            self.group_sizes[a] += self.size(b)
+            self.node_groups[b] = a
+            if self.group_ranks[a] == self.group_ranks[b]:
+                self.group_ranks[a] += 1
