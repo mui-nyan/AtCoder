@@ -23,6 +23,7 @@ def factorization(n):
                 cnt+=1
                 temp //= i
             arr.append([i, cnt])
+    return arr
 
 def fac(N):
     MOD = 10**9 + 7
@@ -127,6 +128,12 @@ def bin_lte(arr, n, l):
         return (c, arr[c])
     else:
         return None
+
+# 座標圧縮
+def compress(arr):
+    *XS, = set(arr)
+    XS.sort()
+    return {e: i for i, e in enumerate(XS)}
 
 def neighbors8(x, y):
   dxy = (1, 1, 0, 1, -1, 0, -1, -1, 1 )
