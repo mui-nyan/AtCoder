@@ -16,8 +16,17 @@ def get_nums_n(n):
 def get_all_int():
     return map(int, open(0).read().split())
 
+def rangeI(it, l, r):
+    for i, e in enumerate(it):
+        if l <= i < r:
+            yield e
+        elif l >= r:
+            break
+
 def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
+
+MOD = 10**9+7
 
 lines = list(map(lambda s: s.strip(), sys.stdin.readlines()))
 n,k,*A = get_all_int()
