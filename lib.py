@@ -129,6 +129,19 @@ def bin_lte(arr, n, l):
     else:
         return None
 
+# 実数の三部探索
+def tri(left, right, f, cnt=500):
+    while cnt:
+        c1 = (left * 2 + right) / 3
+        c2 = (left + right * 2) / 3
+        # もしf(c2)のほうが良い(小さい)なら、駄目な方leftを更新する
+        if f(c1) > f(c2):
+            left = c1
+        else:
+            right = c2
+        cnt -= 1
+    return left
+
 # 座標圧縮
 def compress(arr):
     *XS, = set(arr)
