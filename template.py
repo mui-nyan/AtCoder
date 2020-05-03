@@ -3,7 +3,9 @@ from functools import reduce
 from collections import deque
 import sys
 sys.setrecursionlimit(10**7)
-# sys.stdin.readline
+
+def input():
+    return sys.stdin.readline().strip()
 
 # スペース区切りの入力を読み込んで数値リストにして返します。
 def get_nums_l():
@@ -30,5 +32,4 @@ def log(*args):
 INF = 999999999999999999999999
 MOD = 10**9+7
 
-lines = list(map(lambda s: s.strip(), sys.stdin.readlines()))
 n,k,*A = get_all_int()
