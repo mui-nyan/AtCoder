@@ -1,7 +1,9 @@
 from bisect import bisect_left
 import sys
 sys.setrecursionlimit(10**7)
-# sys.stdin.readline
+
+def input():
+    return sys.stdin.readline().strip()
 
 # スペース区切りの入力を読み込んで数値リストにして返します。
 def get_nums_l():
@@ -16,7 +18,8 @@ n = int(input())
 A = [-INF] + get_nums_l()
 
 edges = [ [] for _ in range(n+1) ]
-for line in map(lambda s: s.strip(), sys.stdin.readlines()):
+for _ in range(n-1):
+    line = input()
     u,v = map(int, line.split())
     edges[u].append(v)
     edges[v].append(u)
