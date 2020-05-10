@@ -158,6 +158,28 @@ def neighbors4(x, y):
   for i in range(4):
     yield(x + dxy[i], y + dxy[i+1])
 
+from heapq import heappush, heappop
+def dijkstra(grid, sx,sy, gx,gy):
+    costs = [ [INF] * w for _ in range(h) ]
+
+    hq = []
+    hq.append((0, sx, sy))
+
+    while hq:
+        c,x,y = heappop(hq)
+        # log(" ", c,x,y)
+        if c >= costs[y][x]:
+            continue
+        costs[y][x] = c
+
+        for nx, ny in neighbors4(x, y):
+            if nx >= w or ny >= h or nx<0 or ny<0:
+                continue
+            if gx is not None and nx == gx and ny == gy:
+                return c + grid[ny][nx]
+            heappush(hq, (c + grid[ny][nx], nx, ny))
+
+    return costs
 
 class segtree:
     def __init__(self, n,operator,identity):
