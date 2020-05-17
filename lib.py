@@ -258,3 +258,6 @@ class union_find():
             self.node_groups[b] = a
             if self.group_ranks[a] == self.group_ranks[b]:
                 self.group_ranks[a] += 1
+
+def deg2xy(deg, r):
+    return (math.cos(math.radians(deg)) * r, math.sin(math.radians(deg)) * r)
