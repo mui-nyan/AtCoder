@@ -1,76 +1,52 @@
+import math
+from functools import reduce
+from collections import deque
+import sys
+sys.setrecursionlimit(10**7)
 
+def input():
+    return sys.stdin.readline().strip()
 
-tmp = input().split(" ")
-n = tmp[0]
-q = int(tmp[1])
+# スペース区切りの入力を読み込んで数値リストにして返します。
+def get_nums_l():
+    return [ int(s) for s in input().split(" ")]
 
+# 改行区切りの入力をn行読み込んで数値リストにして返します。
+def get_nums_n(n):
+    return [ int(input()) for _ in range(n)]
+
+# 改行またはスペース区切りの入力をすべて読み込んでイテレータを返します。
+def get_all_int():
+    return map(int, open(0).read().split())
+
+def rangeI(it, l, r):
+    for i, e in enumerate(it):
+        if l <= i < r:
+            yield e
+        elif l >= r:
+            break
+
+def log(*args):
+    print("DEBUG:", *args, file=sys.stderr)
+
+INF = 999999999999999999999999
+MOD = 10**9+7
+
+n,q = get_nums_l()
 s = input()
 
-ac_indexes=[]
-start=0
-while True:
-    ind = s.find("AC", start)
-    if ind != -1:
-        start=ind+2
-        ac_indexes.append(ind)
-    else:
-        break
+ruiseki_ac = [0] * (n+1)
 
-memo = {}
+for i in range(n-1):
+    x = 0
+    if s[i] == "A" and s[i+1] == "C":
+        x = 1
+    ruiseki_ac[i+1] = ruiseki_ac[i] + x
+ruiseki_ac[n] = ruiseki_ac[n-1]
+
+log(ruiseki_ac)
 
 for i in range(q):
 
-    if len(ac_indexes) == 0:
-        print ("0")
-        continue
-
-    tmp = input().split(" ")
-    a = int(tmp[0]) - 1
-    b = int(tmp[1]) - 2
-
-    memo_ = memo.get(str(a) + "," + str(b))
-    if memo_ != None:
-        print (str(memo))
-
-
-    left = 0
-    right = len(ac_indexes)-1
-    left_kari=-1
-    left_kakutei = -1
-    while left <= right:
-        center = (left+right)//2
-        if ac_indexes[center] > a:
-            right = center-1
-            left_kari = center
-        elif ac_indexes[center] < a:
-            left = center+1
-        else:
-            left_kakutei = center
-            break
-    if left_kakutei == -1:
-        left_kakutei = left_kari
-    
-    left = 0
-    right = len(ac_indexes)-1
-    right_kari = -1
-    right_kakutei = -1
-    while left <= right:
-        center = (left+right)//2
-        #print (left, center, right)
-        if ac_indexes[center] > b:
-            right = center-1
-        elif ac_indexes[center] < b:
-            left = center+1
-            right_kari = center
-        else:
-            right_kakutei = center
-            break
-    if (right_kakutei == -1):
-        right_kakutei = right_kari
-
-    if (left_kakutei > right_kakutei or left_kakutei==-1 or right_kakutei==-1):
-        print ("0")
-        continue
-
-    print(str(right_kakutei - left_kakutei + 1))
-    memo.update({str(a) + "," + str(b): (right_kakutei - left_kakutei + 1)})
+    a,b = get_nums_l()
+    print(ruiseki_ac[b-1] - ruiseki_ac[a-1])
