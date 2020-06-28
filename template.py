@@ -18,7 +18,10 @@ def get_all_int():
 def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
 
-INF = 999999999999999999999999
-MOD = 10**9+7
+def main():
+    INF = 999999999999999999999999
+    MOD = 10**9+7
 
-n,k,*A = get_all_int()
+    n,k,*A = get_all_int()
+
+main()
