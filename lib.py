@@ -199,44 +199,40 @@ def dijkstra(grid, sx,sy, gx,gy):
 
     return costs
 
-class segtree:
-    def __init__(self, n,operator,identity):
-        nb = bin(n)[2:]
-        bc = sum([int(digit) for digit in nb])
-        if bc == 1:
-            self.num_end_leaves = 2**(len(nb)-1)
-        else:
-            self.num_end_leaves = 2**(len(nb))
+class SegmentTree:
+    # 初期化処理
+    # f : SegmentTreeにのせるモノイド
+    # default : fに対する単位元
+    def __init__(self, size, f=lambda x,y : x+y, default=0):
+        self.size = 2**(size-1).bit_length() # 簡単のため要素数Nを2冪にする
+        self.default = default
+        self.dat = [default]*(self.size*2) # 要素を単位元で初期化
+        self.f = f
 
-        self.array = [identity for i in range(self.num_end_leaves * 2)]
-        self.identity = identity
-        self.operator =operator
+    def update(self, i, x):
+        i += self.size
+        self.dat[i] = x
+        while i > 0:
+            i >>= 1
+            self.dat[i] = self.f(self.dat[i*2], self.dat[i*2+1])
 
-    def update(self,x,val):
-        actual_x = x+self.num_end_leaves
-        self.array[actual_x] = val
-        while actual_x > 0 :
-            actual_x = actual_x//2
-            self.array[actual_x] = self.operator(self.array[actual_x*2],self.array[actual_x*2+1])
+    def query(self, l, r):
+        """ [l, r) (半開区間) の範囲を計算して返します。"""
+        l += self.size
+        r += self.size
+        lres, rres = self.default, self.default
+        while l < r:
+            if l & 1:
+                lres = self.f(lres, self.dat[l])
+                l += 1
 
-    def get(self,q_left,q_right,arr_ind=1,leaf_left=0,depth=0):
-        """
-        [q_left, q_right] (閉区間) の値を集計して返します。
-        """
-
-        width_of_floor = self.num_end_leaves//(2**depth)
-        leaf_right = leaf_left+width_of_floor-1
-
-        if leaf_left > q_right or leaf_right < q_left:
-            return  self.identity
-
-        elif leaf_left >= q_left and leaf_right <= q_right:
-            return self.array[arr_ind]
-
-        else:
-            val_l = self.get(q_left,q_right,2*arr_ind,leaf_left,depth+1)
-            val_r = self.get(q_left,q_right,2*arr_ind+1,leaf_left+width_of_floor//2,depth+1)
-            return self.operator(val_l,val_r)
+            if r & 1:
+                r -= 1
+                rres = self.f(self.dat[r], rres) # モノイドでは可換律は保証されていないので演算の方向に注意
+            l >>= 1
+            r >>= 1
+        res = self.f(lres, rres)
+        return res
 
 ##
 # Union-Find
