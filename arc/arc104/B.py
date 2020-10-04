@@ -18,40 +18,38 @@ def get_all_int():
 def log(*args):
     print("DEBUG:", *args, file=sys.stderr)
 
-def main():
-    INF = 999999999999999999999999
-    MOD = 10**9+7
+class cumulative_sum():
+    def __init__(self, array, key=lambda a: a):
+        n = len(array)
+        self.array = [0] * (n+1)
+        for i,a in enumerate(array):
+            self.array[i+1] = self.array[i] + key(a)
 
+    def get(self, l, r):
+        """指定した区間(半開区間)の合計を計算します。"""
+        return self.array[r] - self.array[l]
+
+def main():
     tmp = input().split()
     n = int(tmp[0])
     S = tmp[1]
 
-    A = [0]*(n+1)
-    G = [0]*(n+1)
-    C = [0]*(n+1)
-    T = [0]*(n+1)
-
-    for i,c in enumerate(S):
-        A[i+1] = A[i] + (1 if c=="A" else 0)
-        G[i+1] = G[i] + (1 if c=="G" else 0)
-        C[i+1] = C[i] + (1 if c=="C" else 0)
-        T[i+1] = T[i] + (1 if c=="T" else 0)
-    
-    # log(A,G,C,T)
+    A = cumulative_sum(S, key=lambda c: 1 if c=="A" else 0)
+    G = cumulative_sum(S, key=lambda c: 1 if c=="G" else 0)
+    C = cumulative_sum(S, key=lambda c: 1 if c=="C" else 0)
+    T = cumulative_sum(S, key=lambda c: 1 if c=="T" else 0)
 
     ans = 0
-    for i in range(n-1):
-        for j in range(i+1, n):
-            a = A[j+1] - A[i]
-            g = G[j+1] - G[i]
-            c = C[j+1] - C[i]
-            t = T[j+1] - T[i]
+    for i in range(n):
+        for j in range(i+1, n+1):
+            a = A.get(i, j)
+            g = G.get(i, j)
+            c = C.get(i, j)
+            t = T.get(i, j)
 
             if a==t and g==c:
                 ans += 1
     
     print(ans)
-
-
 
 main()
