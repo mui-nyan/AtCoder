@@ -52,26 +52,6 @@ def fac(N):
         ans = ans * i % MOD
     return ans
 
-def init_kaijo(MAX, MOD):
-    kaijo = [0] * MAX
-    kaijo[0] = 1
-    for i in range(1, len(kaijo)):
-        kaijo[i] = kaijo[i-1] * i % MOD
-    return kaijo
-kaijo = init_kaijo(500000, 10**9+7)
-
-def inv(x, MOD):
-    return pow(x, MOD-2, MOD)
-
-def nPk(n, k, MOD):
-    return kaijo[n] * inv(kaijo[n-k], MOD) % MOD
-
-def nCk(n, k, MOD):
-    return nPk(n,k, MOD) * inv(kaijo[k], MOD)
-
-def nHk(n, k, MOD):
-    return nCk(n+k-1, k, MOD)
-
 from itertools import combinations
 def subsets(items):
     _subsets_=[]
@@ -116,18 +96,6 @@ def divisors_from_prime_factors(prime_factors, need_sort=True):
     if need_sort:
         div.sort()
     return div
-
-class cumulative_sum():
-    def __init__(self, array, key=lambda a: a):
-        n = len(array)
-        self.array = [0] * (n+1)
-        for i,a in enumerate(array):
-            self.array[i+1] = self.array[i] + key(a)
-
-    def get(self, l, r):
-        """指定した区間(半開区間)の合計を計算します。"""
-        return self.array[r] - self.array[l]
-
 
 # 昇順にソート済みのarrにnが存在すれば、最も左のindexと値を返します。
 # 存在しない場合は、Noneを返します。
@@ -255,80 +223,6 @@ def eulerTour(children, root=0):
     dfs(root)
 
     return dist, in_time, out_time
-
-class SegmentTree:
-    # 初期化処理
-    # f : SegmentTreeにのせるモノイド
-    # default : fに対する単位元
-    def __init__(self, size, f=lambda x,y : x+y, default=0):
-        self.size = 2**(size-1).bit_length() # 簡単のため要素数Nを2冪にする
-        self.default = default
-        self.dat = [default]*(self.size*2) # 要素を単位元で初期化
-        self.f = f
-
-    def update(self, i, x):
-        i += self.size
-        self.dat[i] = x
-        while i > 0:
-            i >>= 1
-            self.dat[i] = self.f(self.dat[i*2], self.dat[i*2+1])
-
-    def query(self, l, r):
-        """ [l, r) (半開区間) の範囲を計算して返します。"""
-        l += self.size
-        r += self.size
-        lres, rres = self.default, self.default
-        while l < r:
-            if l & 1:
-                lres = self.f(lres, self.dat[l])
-                l += 1
-
-            if r & 1:
-                r -= 1
-                rres = self.f(self.dat[r], rres) # モノイドでは可換律は保証されていないので演算の方向に注意
-            l >>= 1
-            r >>= 1
-        res = self.f(lres, rres)
-        return res
-
-##
-# Union-Find
-
-class union_find():
-    def __init__(self, n):
-        self.nodes = n
-        self.node_groups = [ i for i in range(n)]
-        self.group_sizes = [ 1 for _ in range(n)]
-        self.group_ranks = [ 0 for _ in range(n)]
-
-    def root(self, i):
-        if self.node_groups[i] == i:
-            return i
-        else:
-            self.node_groups[i] = self.root(self.node_groups[i])
-            return self.node_groups[i]
-
-    def same(self, a, b):
-        return self.root(a) == self.root(b)
-
-    def size(self, i):
-        return self.group_sizes[self.root(i)]
-
-    def unite(self, a, b):
-        a = self.root(a)
-        b = self.root(b)
-
-        if a == b:
-            return
-
-        if self.group_ranks[a] < self.group_ranks[b]:
-            self.group_sizes[b] += self.size(a)
-            self.node_groups[a] = b
-        else:
-            self.group_sizes[a] += self.size(b)
-            self.node_groups[b] = a
-            if self.group_ranks[a] == self.group_ranks[b]:
-                self.group_ranks[a] += 1
 
 def deg2xy(deg, r):
     return (math.cos(math.radians(deg)) * r, math.sin(math.radians(deg)) * r)
