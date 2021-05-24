@@ -207,7 +207,7 @@ def dijkstra(grid, sx,sy, gx,gy):
 def eulerTour(children, root=0):
     """オイラーツアーにより入時刻,出時刻,根からの距離を求めます。"""
     n = len(children)
-    dist = [0] * (n)
+    depth = [0] * (n)
     in_time = [0] * (n)
     out_time = [0] * (n)
     t = 0
@@ -216,13 +216,14 @@ def eulerTour(children, root=0):
         in_time[u] = t
         for c in children[u]:
             t += 1
-            dist[c] = dist[u] + 1
+            depth[c] = depth[u] + 1
             dfs(c)
         t += 1
         out_time[u] = t
     dfs(root)
 
-    return dist, in_time, out_time
+    return depth, in_time, out_time
 
+import math
 def deg2xy(deg, r):
     return (math.cos(math.radians(deg)) * r, math.sin(math.radians(deg)) * r)
