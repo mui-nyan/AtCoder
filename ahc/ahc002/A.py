@@ -26,9 +26,6 @@ def main():
 
     stime = time()
 
-    INF = 999999999999999999999999
-    MOD = 10**9+7
-
     sy, sx = get_nums_l()
     t = []
     for y in range(50):
