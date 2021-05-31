@@ -6,5 +6,9 @@ class CumulativeSum():
             self.array[i+1] = operation(self.array[i],key(a))
 
     def get(self, l, r):
-        """指定した区間(半開区間)の合計を計算します。"""
+        """
+        指定した区間の合計を計算します。
+        区間は、元の配列に対する半開区間になります。
+        [l:r)
+        """
         return self.array[r] - self.array[l]
