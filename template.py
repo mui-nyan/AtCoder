@@ -12,7 +12,7 @@ def GET(*types):
     return [ t(s) for s,t in zip(strs, types)]
 def get_nums_l():  return [ int(s) for s in input().split(" ")]
 def get_all_int(): return map(int, open(0).read().split())
-def log(*args): print("DEBUG:", *args, file=sys.stderr)
+def log(*args, **kwargs): print("DEBUG:", *args, **kwargs, file=sys.stderr)
 
 def main():
     INF = 999999999999999999999999
