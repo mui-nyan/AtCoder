@@ -182,7 +182,7 @@ def neighbors4(x, y):
     yield(x + dxy[i], y + dxy[i+1])
 
 from heapq import heappush, heappop
-def dijkstra(grid, sx,sy, gx,gy):
+def dijkstra(grid, sx, sy, gx=None, gy=None):
     costs = [ [INF] * w for _ in range(h) ]
 
     hq = []
@@ -195,11 +195,12 @@ def dijkstra(grid, sx,sy, gx,gy):
             continue
         costs[y][x] = c
 
+        if gx is not None and x == gx and y == gy:
+            return c
+
         for nx, ny in neighbors4(x, y):
             if nx >= w or ny >= h or nx<0 or ny<0:
                 continue
-            if gx is not None and nx == gx and ny == gy:
-                return c + grid[ny][nx]
             heappush(hq, (c + grid[ny][nx], nx, ny))
 
     return costs
