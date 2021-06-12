@@ -10,7 +10,7 @@ def log(*args, **kwargs): print("DEBUG:", *args, **kwargs, file=sys.stderr)
 
 def theta(p):
     """点pの偏角を求めます。"""
-    return atan2(p[0], p[1]) / pi * 180
+    return atan2(p[1], p[0]) / pi * 180
 
 def main():
     INF = 2**31-1
