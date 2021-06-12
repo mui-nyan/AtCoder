@@ -15,7 +15,7 @@ def get_all_int(): return map(int, open(0).read().split())
 def log(*args, **kwargs): print("DEBUG:", *args, **kwargs, file=sys.stderr)
 
 def main():
-    INF = 999999999999999999999999
+    INF = 2**31-1
     MOD = 10**9+7
 
     n, m = INTS()
