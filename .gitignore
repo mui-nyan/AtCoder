@@ -1,1 +1,5 @@
+# Caches
+__pycache__/
+
+# サンプルチェック用のinputファイル
 *input*
