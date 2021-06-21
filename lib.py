@@ -142,14 +142,14 @@ def compress(arr):
     return {e: i for i, e in enumerate(XS)}
 
 def neighbors8(x, y):
-  dxy = (1, 1, 0, 1, -1, 0, -1, -1, 1 )
-  for i in range(8):
-    yield(x + dxy[i], y + dxy[i+1])
+    dxy = ( (0,1), (1,0), (0,-1), (-1,0), (1,1), (1,-1), (-1,1), (-1,-1) )
+    for dx,dy in dxy:
+        yield(x + dx, y + dy)
 
 def neighbors4(x, y):
-  dxy = (0, 1, 0, -1, 0 )
-  for i in range(4):
-    yield(x + dxy[i], y + dxy[i+1])
+    dxy = ( (0,1), (1,0), (0,-1), (-1,0) )
+    for dx,dy in dxy:
+        yield(x + dx, y + dy)
 
 from heapq import heappush, heappop
 def dijkstra(grid, sx, sy, gx=None, gy=None):
