@@ -151,30 +151,6 @@ def neighbors4(x, y):
     for dx,dy in dxy:
         yield(x + dx, y + dy)
 
-from heapq import heappush, heappop
-def dijkstra(grid, sx, sy, gx=None, gy=None):
-    costs = [ [INF] * w for _ in range(h) ]
-
-    hq = []
-    hq.append((0, sx, sy))
-
-    while hq:
-        c,x,y = heappop(hq)
-        # log(" ", c,x,y)
-        if c >= costs[y][x]:
-            continue
-        costs[y][x] = c
-
-        if gx is not None and x == gx and y == gy:
-            return c
-
-        for nx, ny in neighbors4(x, y):
-            if nx >= w or ny >= h or nx<0 or ny<0:
-                continue
-            heappush(hq, (c + grid[ny][nx], nx, ny))
-
-    return costs
-
 def eulerTour(children, root=0):
     """オイラーツアーにより入時刻,出時刻,根からの距離を求めます。"""
     n = len(children)
