@@ -15,6 +15,10 @@ class SegmentTree:
             i >>= 1
             self.dat[i] = self.f(self.dat[i*2], self.dat[i*2+1])
 
+    def get(self, i):
+        """ [i] の値を返します。 query(i, i+1) と同じ結果を返しますが、より高速に結果を返します。"""
+        return self.dat[self.size + i]
+
     def query(self, l, r):
         """ [l, r) (半開区間) の範囲を計算して返します。"""
         l += self.size
