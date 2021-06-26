@@ -1,3 +1,6 @@
+# 非再帰型Segment TreeのPythonによる実装
+# https://qiita.com/dn6049949/items/afa12d5d079f518de368
+
 class SegmentTree:
     # 初期化処理
     # f : SegmentTreeにのせるモノイド
