@@ -7,14 +7,10 @@ def log(*args, **kwargs): print("DEBUG:", *args, **kwargs, file=sys.stderr)
 
 def get_next(x,y,d):
     ret = []
-    if d != 2:
-        ret.append((x, y-1, 0, d==0))
-    if d != 3:
-        ret.append((x+1, y, 1, d==1))
-    if d != 0:
-        ret.append((x, y+1, 2, d==2))
-    if d != 1:
-        ret.append((x-1, y, 3, d==3))
+    ret.append((x, y-1, 0, d==0))
+    ret.append((x+1, y, 1, d==1))
+    ret.append((x, y+1, 0, d==0))
+    ret.append((x-1, y, 1, d==1))
     return ret
 
 def main():
@@ -33,22 +29,20 @@ def main():
         grid.append(input())
 
     # costs[d][y][x] = マス(x,y)に向き(d)で到達するときの最低コスト
-    # d = 上:0, 右:1, 下:2, 左:3
-    costs = [ [ [INF] * (w) for _ in range(h) ] for _ in range(4) ]
+    # d = 上下:0, 左右:1。後戻りする経路は考える必要がないので、2状態で足りる
+    costs = [ [ [INF] * (w) for _ in range(h) ] for _ in range(2) ]
 
     # 壁があるマスはコストを最低にしておくことで探索されないようにする (探索時の壁チェックを省略できる)
     for y in range(h):
         for x in range(w):
             if grid[y][x] == "#":
-                for d in range(4):
+                for d in range(2):
                     costs[d][y][x] = -INF
 
     # 直進は0, 曲がりは1で01-BFS
     que = deque()
     que.append((0,sx,sy,0))
     que.append((0,sx,sy,1))
-    que.append((0,sx,sy,2))
-    que.append((0,sx,sy,3))
     while que:
         c,x,y,d = que.popleft()
 
